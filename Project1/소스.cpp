@@ -10,7 +10,6 @@ int max_score = 0;
 int n;
 
 void calc(int cur, int score);
-void recursion(int cur, int score);
 
 int main() {
 
@@ -24,35 +23,28 @@ int main() {
 		scanf("%d", &arr[i].T);
 		scanf("%d", &arr[i].P);
 	}
-	for (int i = 0; i < n; i++) {
-		calc(i + arr[i].T, arr[i].P);
-	}
+
+	calc(0, 0);
+	
 	cout << max_score;
+	free(arr);
 }
 
 void calc(int cur, int score) {
-	for (cur; cur < n; cur++) {
-		if (arr[cur].T == 1) {
-			score += arr[cur].P;
-		}
-		else {
-			recursion(cur, score);
-		}
-	}
-	recursion(cur, score);
-}
-
-void recursion(int cur, int score) {
-	if (cur + arr[cur].T > n || cur > n - 1) {
-		if (cur > n) {
+	
+	for (cur; cur <= n; cur++) {
+		if (cur + arr[cur].T > n || cur >= n) {
+			
+			if (score > max_score) {
+				max_score = score;
+			}
 			return;
 		}
-		if (score > max_score) {
-			max_score = score;
+		else {
+			calc(cur + arr[cur].T, score + arr[cur].P);
 		}
-		return;
-	}
-	else {
-		recursion(cur + arr[cur].T, score + arr[cur].P);
 	}
 }
+
+
+
